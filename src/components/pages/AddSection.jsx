@@ -25,9 +25,14 @@ export const AddSection = () => {
     const userId = auth.currentUser.uid;
     const postListRef = ref(db, `${userId}`);
     const newPostRef = push(postListRef);
+
+    // Get the auto-generated Firebase ID of the new section
+    const secId = newPostRef.key;
+
     set(newPostRef, {
       sectionName: sectionName,
       content: [...contentList],
+      sectionId: secId,
     });
   };
 
@@ -58,7 +63,7 @@ export const AddSection = () => {
         </div>
         <div>
           <label htmlFor="sectionName">
-            What are you storing? <i className="fa-solid fa-circle-question" content="What is stored at this location?"></i>
+            What are you storing? <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
           </label>
           <div className="addItem">
             <input type="text" name="sectionName" placeholder="What is in this section?" value={content} onChange={(e) => setContent(e.target.value)} />
@@ -88,7 +93,7 @@ export const AddSection = () => {
           </div>
           <hr />
         </div>
-        <p>
+        <p className="info">
           <i className="fa-solid fa-circle-info"></i> You can always add more items after the section has been created
         </p>
         <Button content="Add Section To Storage" />

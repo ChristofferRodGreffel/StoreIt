@@ -1,11 +1,15 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, onValue, ref } from "firebase/database";
+import { getDatabase, onValue, ref, remove } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
 
 export const StoredItems = () => {
   const [sections, setSections] = useState([]);
+  const [storageEmpty, setStorageEmpty] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [sectionId, setSectionId] = useState("");
+
   const db = getDatabase();
   const navigate = useNavigate();
 
@@ -22,7 +26,7 @@ export const StoredItems = () => {
           setSections(sectionsArray);
         } else {
           setSections([]); // Set to an empty array if there are no sections
-          navigate("/add");
+          setStorageEmpty(true);
         }
       });
     };
@@ -45,7 +49,29 @@ export const StoredItems = () => {
     navigate("/add");
   };
 
-  const handleDelete = () => {};
+  const handleDelete = (id) => {
+    setShowDialog(true);
+    setSectionId(id);
+  };
+
+  const deleteSection = () => {
+    const auth = getAuth();
+    const userId = auth.currentUser.uid;
+    const nodeRef = ref(db, `${userId}/${sectionId}`);
+    setShowDialog(false);
+
+    remove(nodeRef)
+      .then(() => {
+        console.log("Node deleted successfully");
+      })
+      .catch((error) => {
+        console.error("Error deleting node:", error);
+      });
+  };
+
+  const removeDialog = () => {
+    setShowDialog(false);
+  };
 
   return (
     <div className="user-sections">
@@ -67,27 +93,47 @@ export const StoredItems = () => {
         </select>
       </form> */}
       <div className="all-sections">
-        {sections.map((section, key) => (
-          <div key={key} className="section">
-            <h2>{section.sectionName}</h2>
-            <div>
-              <ul>
-                {section.content.map((item, key) => {
-                  return <li key={key}>{item.content}</li>;
-                })}
-              </ul>
-            </div>
-            <div className="buttons">
-              <button className="section-btn">
-                Edit <i className="fa-solid fa-pen-to-square"></i>
-              </button>
-              <button className="section-btn delete" onClick={handleDelete}>
-                Delete <i className="fa-solid fa-trash-can"></i>
-              </button>
-            </div>
-          </div>
-        ))}
+        {!storageEmpty ? (
+          <>
+            {sections.map((section, key) => (
+              <div key={key} className="section">
+                <h2>{section.sectionName}</h2>
+                <div>
+                  <ul>
+                    {section.content.map((item, key) => {
+                      return <li key={key}>{item.content}</li>;
+                    })}
+                  </ul>
+                </div>
+                <div className="buttons">
+                  <button className="section-btn">
+                    Edit <i className="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button className="section-btn delete" id={section.sectionId} onClick={(e) => handleDelete(e.target.id)}>
+                    Delete <i className="fa-solid fa-trash-can"></i>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </>
+        ) : (
+          <p className="no-sections">
+            Ohh noo... Everything is a mess...
+            <br />
+            <br />
+            Add a new section to start organizing!
+          </p>
+        )}
       </div>
+      {showDialog && (
+        <div className="delete-confirm">
+          <h2>Are you sure you want to delete this section?</h2>
+          <div>
+            <button onClick={deleteSection}>Yes</button>
+            <button onClick={removeDialog}>No</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

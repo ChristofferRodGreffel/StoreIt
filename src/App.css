@@ -144,6 +144,17 @@ hr {
   margin-bottom: 50px;
 }
 
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-style: italic;
+}
+.fa-circle-info {
+  color: rgb(19, 152, 230);
+  font-size: 15pt;
+}
+
 .fa-circle-question {
   color: black;
   position: relative;
@@ -250,4 +261,40 @@ hr {
 }
 .delete {
   background-color: rgb(197, 1, 27);
+}
+.no-sections {
+  text-align: center;
+  font-size: 15pt;
+  font-weight: 400;
+}
+.delete-confirm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 30px 50px;
+  background-color: black;
+  color: white;
+}
+.delete-confirm h2 {
+  text-align: center;
+}
+.delete-confirm div {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 30px;
+}
+.delete-confirm div button {
+  border: none;
+  background-color: white;
+  color: rgb(0, 0, 0);
+  font-family: inherit;
+  font-size: 15pt;
+  font-weight: 700;
+  padding: 15px 40px;
 }
