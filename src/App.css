@@ -1,0 +1,227 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  margin-bottom: 100px;
+}
+
+/* Nav */
+nav {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  background-color: black;
+  color: white;
+  align-items: center;
+  justify-content: space-around;
+}
+nav a {
+  text-decoration: none;
+  color: white;
+  padding: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+}
+nav a i {
+  font-size: 15pt;
+}
+
+/* Sign Up */
+.sign-in-container {
+  height: 80vh;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sign-in-container h1 {
+  font-size: 25pt;
+  margin-top: 30px;
+}
+.sign-in-container form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 13pt;
+}
+.sign-in-container form input {
+  font-family: inherit;
+  font-size: 15pt;
+}
+
+/* Universal component styling */
+.btnComponent {
+  font-family: inherit;
+  font-size: 15pt;
+  border: none;
+  background-color: black;
+  color: white;
+  padding: 8px;
+  min-width: 150px;
+  margin-top: 20px;
+}
+
+input {
+  font-family: inherit;
+  padding: 5px 0px;
+  border: none;
+  border-bottom: 2px solid black !important;
+  border-image: linear-gradient(0.25turn, rgb(0, 0, 0), rgb(0, 0, 0));
+  border-image-slice: 0 0 1 0;
+  font-size: 12pt;
+  font-weight: 400;
+  outline: none;
+}
+
+hr {
+  border: 0.5px solid rgb(0, 0, 0);
+}
+
+/* Startpage */
+.create-new-section {
+  width: 90%;
+  margin: auto;
+}
+.create-new-section h1 {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  font-size: 25pt;
+}
+.create-new-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.create-new-section form div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.create-new-section form div label {
+  font-size: 15pt;
+  width: 80%;
+}
+
+.create-new-section div input::placeholder {
+  color: rgba(0, 0, 0, 0.452);
+}
+.fa-circle-question {
+  color: black;
+  position: relative;
+}
+.fa-circle-question::after {
+  content: attr(content);
+  position: absolute;
+  font-family: "Montserrat", sans-serif;
+  font-size: 10pt;
+  color: white;
+  font-weight: 400;
+  background-color: black;
+  padding: 10px;
+  width: 150px;
+  height: auto;
+  display: none;
+  transition: 0.1s ease-in-out;
+}
+.fa-circle-question:hover::after {
+  display: flex;
+}
+.section-summary {
+  gap: 5px;
+  border: 2px solid black;
+  padding: 30px;
+}
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.itemList li {
+  font-size: 13pt;
+  list-style: inside;
+}
+.deleteItem {
+  font-family: inherit;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  border: 2px solid black;
+  padding: 5px;
+  color: black;
+  margin-left: 10px;
+}
+.addBtn {
+  padding: 10px;
+  width: 100px;
+  font-family: inherit;
+  border: none;
+  background-color: black;
+  color: white;
+}
+
+/* Storage overview (StoredItems) */
+.user-sections {
+  width: 90%;
+  margin: auto;
+}
+.user-sections h1 {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  font-weight: 800;
+}
+.all-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.section h2 {
+  font-weight: 600;
+  font-size: 15pt;
+  margin-bottom: 10px;
+}
+.section div:not(.buttons) {
+  border: 2px solid black;
+}
+.section div ul {
+  width: 100%;
+  text-align: center;
+  columns: 3;
+  column-fill: balance;
+  list-style: none;
+  padding: 15px 0px;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.section-btn {
+  border: none;
+  margin-top: 5px;
+  background-color: black;
+  color: white;
+  font-size: 12pt;
+  font-family: inherit;
+  font-weight: 400;
+  padding: 5px 10px;
+}
+.delete {
+  background-color: rgb(197, 1, 27);
+}
