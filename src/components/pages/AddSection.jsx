@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { getDatabase, ref, push, set, onValue } from "firebase/database";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useState } from "react";
+import { getDatabase, ref, push, set } from "firebase/database";
+import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../Button";
 import { v4 as uuidv4 } from "uuid";
 
 export const AddSection = () => {
-  // const [sections, setSections] = useState([]);
   const [sectionName, setSectionName] = useState("");
   const [content, setContent] = useState("");
   const [contentList, setContentList] = useState([]);
@@ -17,7 +16,7 @@ export const AddSection = () => {
   const saveSection = (e) => {
     e.preventDefault();
     createNewSection(sectionName, content);
-    setHasSections(true);
+    navigate("/storage");
   };
 
   const createNewSection = () => {
@@ -63,7 +62,7 @@ export const AddSection = () => {
           </label>
           <div className="addItem">
             <input type="text" name="sectionName" placeholder="What is in this section?" value={content} onChange={(e) => setContent(e.target.value)} />
-            <button onClick={handleAdd} className="addBtn">
+            <button type="button" onClick={handleAdd} className="addBtn">
               Add item
             </button>
           </div>
@@ -89,7 +88,10 @@ export const AddSection = () => {
           </div>
           <hr />
         </div>
-        <Button content="Create Section" />
+        <p>
+          <i className="fa-solid fa-circle-info"></i> You can always add more items after the section has been created
+        </p>
+        <Button content="Add Section To Storage" />
       </form>
     </div>
   );

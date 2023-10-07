@@ -2,10 +2,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, onValue, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Button } from "../Button";
+import { useNavigate } from "react-router-dom";
 
 export const StoredItems = () => {
   const [sections, setSections] = useState([]);
   const db = getDatabase();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const auth = getAuth();
@@ -20,6 +22,7 @@ export const StoredItems = () => {
           setSections(sectionsArray);
         } else {
           setSections([]); // Set to an empty array if there are no sections
+          navigate("/add");
         }
       });
     };
@@ -38,10 +41,19 @@ export const StoredItems = () => {
     };
   }, [db]);
 
+  const handleClick = () => {
+    navigate("/add");
+  };
+
+  const handleDelete = () => {};
+
   return (
     <div className="user-sections">
       <h1>Storage Overview</h1>
-      <form>
+      <button onClick={handleClick} className="add-section-btn">
+        Add section <i className="fa-solid fa-plus"></i>
+      </button>
+      {/* <form>
         <input type="text" placeholder="Search for item" />
         <input type="submit" value="Search" />
       </form>
@@ -53,7 +65,7 @@ export const StoredItems = () => {
           <option value="">Section 4</option>
           <option value="">Section 5</option>
         </select>
-      </form>
+      </form> */}
       <div className="all-sections">
         {sections.map((section, key) => (
           <div key={key} className="section">
@@ -69,7 +81,7 @@ export const StoredItems = () => {
               <button className="section-btn">
                 Edit <i className="fa-solid fa-pen-to-square"></i>
               </button>
-              <button className="section-btn delete">
+              <button className="section-btn delete" onClick={handleDelete}>
                 Delete <i className="fa-solid fa-trash-can"></i>
               </button>
             </div>

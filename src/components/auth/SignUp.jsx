@@ -27,12 +27,13 @@ const SingUp = () => {
   return (
     <div className="sign-in-container">
       <form onSubmit={signUp}>
-        <h1>Let's get started!</h1>
+        <h1>Let's get you started!</h1>
         <input type="text" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <p>(Password needs to be at least 7 characters)</p>
         <Button content="Sign Up" type="submit" />
         <p>
-          Already have an account? <Link to="/signin">Sign In</Link>
+          Already have an account? <Link to="/signin">Log in</Link>
         </p>
       </form>
     </div>

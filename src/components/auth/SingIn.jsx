@@ -15,10 +15,7 @@ const SingIn = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         // User is signed in, redirect to the startpage
-        navigate("/startpage");
-      } else {
-        // User is not signed in or authentication state not yet determined
-        // You can add additional logic here if needed
+        navigate("/storage");
       }
     });
 
