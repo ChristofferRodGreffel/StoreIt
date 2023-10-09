@@ -54,6 +54,11 @@ export const StoredItems = () => {
     setSectionId(id);
   };
 
+  const handleEdit = (id) => {
+    getSectionData(id);
+    navigate("/update");
+  };
+
   const deleteSection = () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
@@ -106,7 +111,7 @@ export const StoredItems = () => {
                   </ul>
                 </div>
                 <div className="buttons">
-                  <button className="section-btn">
+                  <button className="section-btn" id={section.sectionId} onClick={(e) => handleEdit(e.target.id)}>
                     Edit <i className="fa-solid fa-pen-to-square"></i>
                   </button>
                   <button

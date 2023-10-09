@@ -2,25 +2,30 @@ import React, { useState } from "react";
 import { Button } from "../Button";
 import { Link } from "react-router-dom";
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import authErrorMessages from "../auth/errorMessages";
 
 export const ResetPassword = () => {
   const [email, setEmail] = useState("");
+  const output = document.querySelector(".resetOutput");
 
   const handleReset = (e) => {
     e.preventDefault();
     const auth = getAuth();
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        const output = document.querySelector(".resetOutput");
         output.innerHTML = "A password reset link has been sent to you!";
+        output.style.color = "green";
         setEmail("");
       })
       .catch((error) => {
-        setEmail("");
-        const errorCode = error.code;
+        output.style.color = "red";
         console.log(error.code);
-        // ..
+        output.innerHTML = getCustomErrorMessage(error.code);
       });
+  };
+
+  const getCustomErrorMessage = (error) => {
+    return authErrorMessages[error] || "An unknown error occurred. Please try again later.";
   };
 
   return (

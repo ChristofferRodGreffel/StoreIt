@@ -15,7 +15,8 @@ const authErrorMessages = {
   "auth/invalid-email": "Invalid email address. Please check the email format and try again.",
   "auth/weak-password": "Password is too weak. It should be at least 6 characters long.",
   "auth/email-already-exists": "The email address already exists. Please use a different email to sign up.",
-  "auth/account-exists-with-different-credential": "An account with this email already exists, but with a different sign-in method.",
+  "auth/account-exists-with-different-credential":
+    "An account with this email already exists, but with a different sign-in method.",
   "auth/invalid-verification-code": "Invalid verification code. Please check and try again.",
   "auth/requires-recent-login": "This operation requires you to sign in again for security purposes.",
   "auth/popup-closed-by-user": "The sign-in popup was closed by the user before completing the process.",
@@ -24,7 +25,7 @@ const authErrorMessages = {
   "auth/user-token-revoked": "Your authentication token has been revoked. Please sign in again.",
   "auth/provider-already-linked": "This provider is already linked to your account.",
   "auth/missing-phone-number": "A phone number is required for this action. Please provide a valid phone number.",
-  "auth/invalid-login-credentials": "The provided email and password does not match.",
+  "auth/invalid-login-credentials": "The Email or the password is incorrect.",
   // Add more error codes and custom messages as needed
 };
 

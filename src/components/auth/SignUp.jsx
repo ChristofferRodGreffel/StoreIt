@@ -18,7 +18,7 @@ const SingUp = () => {
       .then(() => {
         setEmail("");
         setPassword("");
-        // navigate("/storage");
+        navigate("/storage");
         setErrorMessage("");
       })
       .catch((err) => {
@@ -34,8 +34,20 @@ const SingUp = () => {
     <div className="sign-in-container">
       <form onSubmit={signUp}>
         <h1>Let's get you started!</h1>
-        <input type="text" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <input
+          type="text"
+          placeholder="Enter your email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Enter your password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <p className="auth-error">{errorMessage}</p>
         <Button content="Sign Up" type="submit" />
         <p>
