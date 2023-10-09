@@ -57,7 +57,7 @@ export const StoredItems = () => {
   const deleteSection = () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
-    const nodeRef = ref(db, `${userId}/${sectionId}`);
+    const nodeRef = ref(db, `${userId}/${sectionId}/`);
     setShowDialog(false);
 
     remove(nodeRef)
@@ -109,7 +109,11 @@ export const StoredItems = () => {
                   <button className="section-btn">
                     Edit <i className="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button className="section-btn delete" id={section.sectionId} onClick={(e) => handleDelete(e.target.id)}>
+                  <button
+                    className="section-btn delete"
+                    id={section.sectionId}
+                    onClick={(e) => handleDelete(e.target.id)}
+                  >
                     Delete <i className="fa-solid fa-trash-can"></i>
                   </button>
                 </div>

@@ -29,6 +29,9 @@ export const AddSection = () => {
     // Get the auto-generated Firebase ID of the new section
     const secId = newPostRef.key;
 
+    if (contentList.length == 0) {
+      contentList.push("");
+    }
     set(newPostRef, {
       sectionName: sectionName,
       content: [...contentList],
@@ -59,14 +62,28 @@ export const AddSection = () => {
           <label htmlFor="sectionName">
             Section name <i className="fa-solid fa-circle-question" content="The name of your storage location"></i>
           </label>
-          <input type="text" name="sectionName" placeholder="What is the section name?" value={sectionName} onChange={(e) => setSectionName(e.target.value)} required />
+          <input
+            type="text"
+            name="sectionName"
+            placeholder="What is the section name?"
+            value={sectionName}
+            onChange={(e) => setSectionName(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label htmlFor="sectionName">
-            What are you storing? <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
+            What are you storing?{" "}
+            <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
           </label>
           <div className="addItem">
-            <input type="text" name="sectionName" placeholder="What is in this section?" value={content} onChange={(e) => setContent(e.target.value)} />
+            <input
+              type="text"
+              name="sectionName"
+              placeholder="What is in this section?"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
             <button type="button" onClick={handleAdd} className="addBtn">
               Add item
             </button>
