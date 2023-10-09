@@ -1,27 +1,33 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 import React from "react";
 import { useState } from "react";
 import { auth } from "../../firebase";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../Button";
+import authErrorMessages from "./errorMessages";
 
 const SingUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   const signUp = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // console.log(userCredential);
+      .then(() => {
         setEmail("");
         setPassword("");
-        navigate("/startpage");
+        // navigate("/storage");
+        setErrorMessage("");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        setErrorMessage(getCustomErrorMessage(err.code));
       });
+  };
+
+  const getCustomErrorMessage = (errorCode) => {
+    return authErrorMessages[errorCode] || "An unknown error occurred. Please try again later.";
   };
 
   return (
@@ -30,7 +36,7 @@ const SingUp = () => {
         <h1>Let's get you started!</h1>
         <input type="text" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         <input type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        <p>(Password needs to be at least 7 characters)</p>
+        <p className="auth-error">{errorMessage}</p>
         <Button content="Sign Up" type="submit" />
         <p>
           Already have an account? <Link to="/signin">Log in</Link>

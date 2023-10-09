@@ -8,6 +8,7 @@ import { Nav } from "./components/Nav";
 import { Settings } from "./components/pages/Settings";
 import { StoredItems } from "./components/pages/StoredItems";
 import { useState } from "react";
+import { ResetPassword } from "./components/pages/ResetPassword";
 
 function App() {
   const [signedIn, setSignedIn] = useState(false);
@@ -31,6 +32,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/storage" element={<StoredItems />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/reset" element={<ResetPassword />} />
       </Routes>
     </>
   );
