@@ -39,7 +39,8 @@ export const AddSection = () => {
     });
   };
 
-  const handleAdd = () => {
+  const handleAdd = (e) => {
+    e.preventDefault();
     const newItem = {
       id: uuidv4(),
       content: content,
@@ -57,37 +58,25 @@ export const AddSection = () => {
   return (
     <div className="create-new-section">
       <h1>Create new section</h1>
-      <form onSubmit={saveSection}>
+      <div className="form">
         <div>
           <label htmlFor="sectionName">
             Section name <i className="fa-solid fa-circle-question" content="The name of your storage location"></i>
           </label>
-          <input
-            type="text"
-            name="sectionName"
-            placeholder="What is the section name?"
-            value={sectionName}
-            onChange={(e) => setSectionName(e.target.value)}
-            required
-          />
+          <input type="text" name="sectionName" placeholder="What is the section name?" value={sectionName} onChange={(e) => setSectionName(e.target.value)} required />
         </div>
         <div>
-          <label htmlFor="sectionName">
-            What are you storing?{" "}
-            <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
-          </label>
-          <div className="addItem">
-            <input
-              type="text"
-              name="sectionName"
-              placeholder="What is in this section?"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-            />
-            <button type="button" onClick={handleAdd} className="addBtn">
-              Add item
-            </button>
-          </div>
+          <form>
+            <label htmlFor="sectionName">
+              What are you storing? <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
+            </label>
+            <div className="addItem">
+              <input type="text" name="sectionName" placeholder="What is in this section?" value={content} onChange={(e) => setContent(e.target.value)} />
+              <button type="submit" onClick={handleAdd} className="addBtn">
+                Add item
+              </button>
+            </div>
+          </form>
         </div>
         <div className="section-summary">
           <h3>Section Summary</h3>
@@ -113,8 +102,8 @@ export const AddSection = () => {
         <p className="info">
           <i className="fa-solid fa-circle-info"></i> You can always add more items after the section has been created
         </p>
-        <Button content="Add Section To Storage" />
-      </form>
+        <Button content="Add Section To Storage" function={saveSection} />
+      </div>
     </div>
   );
 };

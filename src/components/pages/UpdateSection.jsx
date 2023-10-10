@@ -1,44 +1,46 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, onValue, ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { database } from "../../firebase";
 
 export const UpdateSection = () => {
-  const [sections, setSections] = useState([]);
-  const db = getDatabase();
+  const [sections, setSections] = useState({});
+  const [dataPresent, setDataPresent] = useState(false);
+  const navigate = useNavigate();
+  const auth = getAuth();
+  const { id } = useParams();
 
   useEffect(() => {
-    const getSectionData = (id) => {
-      const auth = getAuth();
-
-      const getUserData = (user) => {
-        const userId = user.uid;
-        const userSectionsRef = ref(db, `${userId}/${id}`);
-        onValue(userSectionsRef, (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            console.log(data);
-            setSections(data);
-          } else {
-            setSections([]); // Set to an empty array if there are no sections
-            setStorageEmpty(true);
-          }
-        });
-      };
-
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
-          getUserData(user);
+    const getUserData = (user) => {
+      const userId = user.uid;
+      const userSectionsRef = ref(database, `${userId}/${id}`);
+      onValue(userSectionsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          // console.log(data);
+          setDataPresent(true);
+          setSections(data);
         } else {
-          navigate("/signin");
+          setSections({}); // Set to an empty array if there are no sections
+          setDataPresent(false);
         }
       });
-
-      // Clean up the auth state listener when the component unmounts
-      return () => {
-        unsubscribe();
-      };
     };
-  }, [db]);
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getUserData(user);
+      } else {
+        navigate("/signin");
+      }
+    });
+
+    // Clean up the auth state listener when the component unmounts
+    return () => {
+      unsubscribe();
+    };
+  }, [database]);
 
   const updateItems = () => {
     const db = getDatabase();
@@ -70,9 +72,10 @@ export const UpdateSection = () => {
         <h2>{sections.sectionName}</h2>
         <div>
           <ul>
-            {sections.content.map((item, key) => {
-              return <li key={key}>{item.content}</li>;
-            })}
+            {dataPresent &&
+              sections.content.map((item, key) => {
+                return <li key={key}>{item.content}</li>;
+              })}
           </ul>
         </div>
         {/* <div className="buttons">

@@ -35,6 +35,7 @@ const SingIn = () => {
         navigate("/storage");
       })
       .catch((err) => {
+        console.log(err.code);
         setErrorMessage(getCustomErrorMessage(err.code));
       });
   };

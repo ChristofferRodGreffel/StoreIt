@@ -27,6 +27,7 @@ function App() {
       {signedIn && <Nav />}
       <Routes>
         <Route path="/" element={<SingIn />} />
+        <Route path="/update/:id" element={<UpdateSection />} />
         <Route path="/signup" element={<SingUp />} />
         <Route path="/signin" element={<SingIn />} />
         <Route path="/add" element={<AddSection />} />
@@ -34,7 +35,6 @@ function App() {
         <Route path="/storage" element={<StoredItems />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/reset" element={<ResetPassword />} />
-        <Route path="/update" element={<UpdateSection />} />
       </Routes>
     </>
   );

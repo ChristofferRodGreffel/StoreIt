@@ -55,8 +55,9 @@ export const StoredItems = () => {
   };
 
   const handleEdit = (id) => {
-    getSectionData(id);
-    navigate("/update");
+    if (id) {
+      navigate(`/update/${id}`);
+    }
   };
 
   const deleteSection = () => {
@@ -111,14 +112,10 @@ export const StoredItems = () => {
                   </ul>
                 </div>
                 <div className="buttons">
-                  <button className="section-btn" id={section.sectionId} onClick={(e) => handleEdit(e.target.id)}>
+                  <button className="section-btn" onClick={() => handleEdit(section.sectionId)}>
                     Edit <i className="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button
-                    className="section-btn delete"
-                    id={section.sectionId}
-                    onClick={(e) => handleDelete(e.target.id)}
-                  >
+                  <button className="section-btn delete" onClick={(e) => handleDelete(section.sectionId)}>
                     Delete <i className="fa-solid fa-trash-can"></i>
                   </button>
                 </div>
