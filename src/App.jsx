@@ -10,6 +10,8 @@ import { StoredItems } from "./components/pages/StoredItems";
 import { useState } from "react";
 import { ResetPassword } from "./components/pages/ResetPassword";
 import { UpdateSection } from "./components/pages/UpdateSection";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [signedIn, setSignedIn] = useState(false);
@@ -24,6 +26,7 @@ function App() {
   });
   return (
     <>
+      <ToastContainer />
       {signedIn && <Nav />}
       <Routes>
         <Route path="/" element={<SingIn />} />

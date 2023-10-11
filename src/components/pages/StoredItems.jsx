@@ -2,14 +2,16 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, onValue, ref, remove } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { database } from "../../firebase";
+import { toast } from "react-toastify";
 
 export const StoredItems = () => {
   const [sections, setSections] = useState([]);
   const [storageEmpty, setStorageEmpty] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
+  const [sectionName, setSectionName] = useState("");
   const [sectionId, setSectionId] = useState("");
 
-  const db = getDatabase();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +19,7 @@ export const StoredItems = () => {
 
     const getUserData = (user) => {
       const userId = user.uid;
-      const userSectionsRef = ref(db, `${userId}/`);
+      const userSectionsRef = ref(database, `${userId}/`);
       onValue(userSectionsRef, (snapshot) => {
         const data = snapshot.val();
         console.log("gpifi");
@@ -43,14 +45,15 @@ export const StoredItems = () => {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [database]);
 
   const handleClick = () => {
     navigate("/add");
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, name) => {
     setShowDialog(true);
+    setSectionName(name);
     setSectionId(id);
   };
 
@@ -63,12 +66,22 @@ export const StoredItems = () => {
   const deleteSection = () => {
     const auth = getAuth();
     const userId = auth.currentUser.uid;
-    const nodeRef = ref(db, `${userId}/${sectionId}/`);
+    const nodeRef = ref(database, `${userId}/${sectionId}/`);
     setShowDialog(false);
 
     remove(nodeRef)
       .then(() => {
         console.log("Node deleted successfully");
+        toast.success(`${sectionName} deleted`, {
+          position: "top-right",
+          autoClose: 1500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       })
       .catch((error) => {
         console.error("Error deleting node:", error);
@@ -115,7 +128,10 @@ export const StoredItems = () => {
                   <button className="section-btn" onClick={() => handleEdit(section.sectionId)}>
                     Edit <i className="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button className="section-btn delete" onClick={(e) => handleDelete(section.sectionId)}>
+                  <button
+                    className="section-btn delete"
+                    onClick={(e) => handleDelete(section.sectionId, section.sectionName)}
+                  >
                     Delete <i className="fa-solid fa-trash-can"></i>
                   </button>
                 </div>

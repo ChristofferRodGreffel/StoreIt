@@ -4,6 +4,7 @@ import { getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../Button";
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-toastify";
 
 export const AddSection = () => {
   const [sectionName, setSectionName] = useState("");
@@ -47,12 +48,36 @@ export const AddSection = () => {
     };
 
     setContentList([...contentList, newItem]);
+
+    toast.dismiss();
+    toast.info(`${newItem.content} added to ${sectionName}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
     setContent("");
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, content) => {
     const newList = contentList.filter((item) => item.id !== id);
     setContentList(newList);
+
+    toast.info(`${content} removed`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    setContent("");
   };
 
   return (
@@ -63,15 +88,29 @@ export const AddSection = () => {
           <label htmlFor="sectionName">
             Section name <i className="fa-solid fa-circle-question" content="The name of your storage location"></i>
           </label>
-          <input type="text" name="sectionName" placeholder="What is the section name?" value={sectionName} onChange={(e) => setSectionName(e.target.value)} required />
+          <input
+            type="text"
+            name="sectionName"
+            placeholder="What is the section name?"
+            value={sectionName}
+            onChange={(e) => setSectionName(e.target.value)}
+            required
+          />
         </div>
         <div>
           <form>
             <label htmlFor="sectionName">
-              What are you storing? <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
+              What are you storing?{" "}
+              <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
             </label>
             <div className="addItem">
-              <input type="text" name="sectionName" placeholder="What is in this section?" value={content} onChange={(e) => setContent(e.target.value)} />
+              <input
+                type="text"
+                name="sectionName"
+                placeholder="What is in this section?"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
               <button type="submit" onClick={handleAdd} className="addBtn">
                 Add item
               </button>
@@ -90,7 +129,7 @@ export const AddSection = () => {
               {contentList.map((listItem) => (
                 <li key={listItem.id}>
                   {listItem.content}
-                  <button onClick={() => handleDelete(listItem.id)} className="deleteItem">
+                  <button onClick={() => handleDelete(listItem.id, listItem.content)} className="deleteItem">
                     Remove
                   </button>
                 </li>
