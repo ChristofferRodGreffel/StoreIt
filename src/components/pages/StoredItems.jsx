@@ -1,7 +1,6 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, onValue, ref, remove } from "firebase/database";
 import React, { useEffect, useState } from "react";
-import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
 
 export const StoredItems = () => {
@@ -21,6 +20,7 @@ export const StoredItems = () => {
       const userSectionsRef = ref(db, `${userId}/`);
       onValue(userSectionsRef, (snapshot) => {
         const data = snapshot.val();
+        console.log("gpifi");
         if (data) {
           const sectionsArray = Object.values(data); // Convert the object to an array
           setSections(sectionsArray);
@@ -43,7 +43,7 @@ export const StoredItems = () => {
     return () => {
       unsubscribe();
     };
-  }, [db]);
+  }, []);
 
   const handleClick = () => {
     navigate("/add");

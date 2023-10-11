@@ -25,8 +25,7 @@ const authErrorMessages = {
   "auth/user-token-revoked": "Your authentication token has been revoked. Please sign in again.",
   "auth/provider-already-linked": "This provider is already linked to your account.",
   "auth/missing-phone-number": "A phone number is required for this action. Please provide a valid phone number.",
-  "auth/invalid-login-credentials": "The Email or the password is incorrect.",
-  // Add more error codes and custom messages as needed
+  "auth/invalid-login-credentials": "The email or the password is incorrect.",
 };
 
 export default authErrorMessages;
