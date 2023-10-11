@@ -147,17 +147,17 @@ hr {
   margin-bottom: 30px;
   font-size: 25pt;
 }
-.create-new-section form {
+.create-new-section .form {
   display: flex;
   flex-direction: column;
   gap: 30px;
 }
-.create-new-section form div {
+.create-new-section .form div {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-.create-new-section form div label {
+.create-new-section .form div label {
   font-size: 15pt;
   width: 80%;
 }
