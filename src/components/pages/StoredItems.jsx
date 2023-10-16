@@ -11,6 +11,7 @@ export const StoredItems = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [sectionName, setSectionName] = useState("");
   const [sectionId, setSectionId] = useState("");
+  const [searchItem, setSearchItem] = useState("");
 
   const navigate = useNavigate();
 
@@ -92,17 +93,40 @@ export const StoredItems = () => {
     setShowDialog(false);
   };
 
+  // Store the input value from the search bar in searchItem state
+  const handleInputChange = (e) => {
+    const searchTerm = e.target.value;
+    setSearchItem(searchTerm);
+  };
+
+  // Function to iterate over and filter the sections. Filters both sectionName and content
+  const filterSections = (sections, searchTerm) => {
+    return sections.filter((section) => {
+      return section.sectionName.toLowerCase().includes(searchTerm.toLowerCase()) || section.content.some((item) => item.content.toLowerCase().includes(searchTerm.toLowerCase()));
+    });
+  };
+
+  // The variable is set equal to the result of the filtering function and then used as output
+  const filteredSections = filterSections(sections, searchItem);
+
+  // This variable is used for conditional rendering and checks if there are any matches from filtering
+  const hasMatch = filteredSections.length > 0;
+
+  const handleReset = () => {
+    setSearchItem("");
+  };
+
   return (
     <div className="user-sections">
       <h1>Storage Overview</h1>
       <button onClick={handleClick} className="add-section-btn">
         Add section <i className="fa-solid fa-plus"></i>
       </button>
-      {/* <form>
-        <input type="text" placeholder="Search for item" />
-        <input type="submit" value="Search" />
+      <form className="search" onSubmit={(e) => e.preventDefault()}>
+        <input type="text" placeholder="Search for item" onChange={handleInputChange} value={searchItem} />
+        <button onClick={handleReset}>Clear</button>
       </form>
-      <form>
+      {/* <form>
         <select placeholder="Section">
           <option value="">Section 1</option>
           <option value="">Section 2</option>
@@ -114,26 +138,30 @@ export const StoredItems = () => {
       <div className="all-sections">
         {!storageEmpty ? (
           <>
-            {sections.map((section, key) => (
-              <div key={key} className="section">
-                <h2>{section.sectionName}</h2>
-                <div>
-                  <ul>
-                    {section.content.map((item, key) => {
-                      return <li key={key}>{item.content}</li>;
-                    })}
-                  </ul>
+            {hasMatch ? (
+              filteredSections.map((section, key) => (
+                <div key={key} className="section">
+                  <h2>{section.sectionName}</h2>
+                  <div>
+                    <ul>
+                      {section.content.map((item, key) => {
+                        return <li key={key}>{item.content}</li>;
+                      })}
+                    </ul>
+                  </div>
+                  <div className="buttons">
+                    <button className="section-btn" onClick={() => handleEdit(section.sectionId)}>
+                      Edit <i className="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button className="section-btn delete" onClick={(e) => handleDelete(section.sectionId, section.sectionName)}>
+                      Delete <i className="fa-solid fa-trash-can"></i>
+                    </button>
+                  </div>
                 </div>
-                <div className="buttons">
-                  <button className="section-btn" onClick={() => handleEdit(section.sectionId)}>
-                    Edit <i className="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button className="section-btn delete" onClick={(e) => handleDelete(section.sectionId, section.sectionName)}>
-                    Delete <i className="fa-solid fa-trash-can"></i>
-                  </button>
-                </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <p className="no-sections">Nothing matches your search...</p>
+            )}
           </>
         ) : (
           <p className="no-sections">

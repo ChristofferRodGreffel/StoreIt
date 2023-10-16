@@ -271,13 +271,18 @@ hr {
   border: 2px solid black;
 }
 .section div ul {
-  width: 100%;
-  text-align: center;
+  width: 90%;
+  margin: auto;
+  display: flex;
+  gap: 15px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  text-align: left;
   columns: 3;
-  column-fill: balance;
   padding: 15px 0px;
 }
 .section div ul li {
+  width: fit-content;
   list-style-position: inside;
   list-style-type: disc;
 }
@@ -337,9 +342,19 @@ hr {
   padding: 15px 40px;
 }
 
-/* Background blur */
-.blur:not(.delete-confirm) {
-  filter: blur(2px);
+.search {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+.search button {
+  font-weight: 600;
+  font-size: 12pt;
+  border: none;
+  background-color: black;
+  font-family: inherit;
+  color: white;
+  padding: 10px 20px;
 }
 
 /* Edit section */
