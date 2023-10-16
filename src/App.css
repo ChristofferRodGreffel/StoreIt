@@ -143,6 +143,7 @@ hr {
   margin: auto;
 }
 .create-new-section h1 {
+  font-weight: 800;
   margin-top: 50px;
   margin-bottom: 30px;
   font-size: 25pt;
@@ -274,9 +275,13 @@ hr {
   text-align: center;
   columns: 3;
   column-fill: balance;
-  list-style: none;
   padding: 15px 0px;
 }
+.section div ul li {
+  list-style-position: inside;
+  list-style-type: disc;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -301,7 +306,7 @@ hr {
   font-weight: 400;
 }
 .delete-confirm {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -330,4 +335,56 @@ hr {
   font-size: 15pt;
   font-weight: 700;
   padding: 15px 40px;
+}
+
+/* Background blur */
+.blur:not(.delete-confirm) {
+  filter: blur(2px);
+}
+
+/* Edit section */
+
+.edit-section {
+  width: 90%;
+  margin: auto;
+  margin-top: 50px;
+}
+.edit-section h1 {
+  font-weight: 800;
+  margin-bottom: 30px;
+  font-size: 25pt;
+}
+.edit-section form {
+  margin-top: 10px;
+}
+.edit-summary {
+  margin-top: 50px;
+  border: 2px solid black;
+  padding: 30px;
+}
+.edit-summary h2 {
+  margin-bottom: 20px;
+}
+.edit-summary ul {
+  padding: 20px 0px;
+}
+.addItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.edit-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+.edit-buttons a {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+  font-size: 15pt;
+  font-weight: 600;
+  color: black;
+  text-decoration: none;
 }

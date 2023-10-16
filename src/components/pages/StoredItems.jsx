@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, onValue, ref, remove } from "firebase/database";
+import { onValue, ref, remove } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { database } from "../../firebase";
@@ -22,13 +22,13 @@ export const StoredItems = () => {
       const userSectionsRef = ref(database, `${userId}/`);
       onValue(userSectionsRef, (snapshot) => {
         const data = snapshot.val();
-        console.log("gpifi");
         if (data) {
           const sectionsArray = Object.values(data); // Convert the object to an array
           setSections(sectionsArray);
         } else {
           setSections([]); // Set to an empty array if there are no sections
           setStorageEmpty(true);
+          navigate("/storage");
         }
       });
     };
@@ -128,10 +128,7 @@ export const StoredItems = () => {
                   <button className="section-btn" onClick={() => handleEdit(section.sectionId)}>
                     Edit <i className="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button
-                    className="section-btn delete"
-                    onClick={(e) => handleDelete(section.sectionId, section.sectionName)}
-                  >
+                  <button className="section-btn delete" onClick={(e) => handleDelete(section.sectionId, section.sectionName)}>
                     Delete <i className="fa-solid fa-trash-can"></i>
                   </button>
                 </div>

@@ -1,12 +1,17 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, onValue, ref, set } from "firebase/database";
+import { child, getDatabase, onValue, push, ref, set, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 import { database } from "../../firebase";
+import { toast } from "react-toastify";
+import { Button } from "../Button";
 
 export const UpdateSection = () => {
   const [sections, setSections] = useState({});
   const [dataPresent, setDataPresent] = useState(false);
+  const [content, setContent] = useState("");
+  const [contentList, setContentList] = useState([]);
   const navigate = useNavigate();
   const auth = getAuth();
   const { id } = useParams();
@@ -18,9 +23,9 @@ export const UpdateSection = () => {
       onValue(userSectionsRef, (snapshot) => {
         const data = snapshot.val();
         if (data) {
-          // console.log(data);
           setDataPresent(true);
           setSections(data);
+          setContentList(data.content);
         } else {
           setSections({}); // Set to an empty array if there are no sections
           setDataPresent(false);
@@ -42,51 +47,119 @@ export const UpdateSection = () => {
     };
   }, [database]);
 
-  const updateItems = () => {
-    const db = getDatabase();
-    const auth = getAuth();
+  // Update the current section with the new content
+  const updateItems = async () => {
     const userId = auth.currentUser.uid;
-    console.log(userId);
 
-    const idRef = "-NgKgJPUE-X98vnxg2A3";
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    const updates = {};
+    updates[`/${userId}/${id}/content`] = contentList;
 
-    const nodeRef = ref(db, `${userId}/${idRef}/`);
-
-    const newContentArray = ["newItem1", "newItem2", "newItem3"];
-
-    const contentRef = ref(nodeRef, "content");
-
-    // Set the new content array to the database
-    set(contentRef, newContentArray)
+    return update(ref(database), updates)
       .then(() => {
-        console.log("Content array updated successfully");
+        toast.success(`${sections.sectionName} was updated!`, {
+          position: "top-right",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
       })
       .catch((error) => {
-        console.error("Error updating content array:", error);
+        console.log(error);
       });
+  };
+
+  // Add new item to list
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const newItem = {
+      id: uuidv4(),
+      content: content,
+    };
+
+    setContentList([...contentList, newItem]);
+
+    toast.dismiss();
+    toast.success(`[${newItem.content}] was added to ${sections.sectionName}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    setContent("");
+  };
+
+  // Remove item from list
+  const handleDelete = (id, content) => {
+    const newList = contentList.filter((item) => item.id !== id);
+    setContentList(newList);
+
+    toast.success(`[${content}] was removed from ${sections.sectionName}`, {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+    setContent("");
   };
 
   return (
     <>
-      <div className="section">
-        <h2>{sections.sectionName}</h2>
-        <div>
-          <ul>
-            {dataPresent &&
-              sections.content.map((item, key) => {
-                return <li key={key}>{item.content}</li>;
-              })}
-          </ul>
+      {dataPresent && (
+        <div className="edit-section">
+          <div>
+            <h1>Edit section</h1>
+            <div>
+              <label>
+                Add more items <i className="fa-solid fa-circle-question" content="Here you can add additional items to the section"></i>
+              </label>
+              <form>
+                <div className="addItem">
+                  <input type="text" name="sectionName" placeholder="What is in this section?" value={content} onChange={(e) => setContent(e.target.value)} />
+                  <button type="submit" onClick={handleAdd} className="addBtn">
+                    Add item
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="edit-summary">
+              <h2>{sections.sectionName}</h2>
+              <hr />
+              <div>
+                <ul className="itemList">
+                  {contentList.map((listItem) => (
+                    <li key={listItem.id}>
+                      {listItem.content}
+                      <button onClick={() => handleDelete(listItem.id, listItem.content)} className="deleteItem">
+                        Remove
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <hr />
+            </div>
+          </div>
+          <div className="edit-buttons">
+            <Button content="Confirm changes" function={updateItems} />
+            <Link to="/storage">
+              <i className="fa-solid fa-arrow-left"></i> Back to storage
+            </Link>
+          </div>
         </div>
-        {/* <div className="buttons">
-            <button className="section-btn" id={section.sectionId} onClick={(e) => handleEdit(e.target.id)}>
-              Edit <i className="fa-solid fa-pen-to-square"></i>
-            </button>
-            <button className="section-btn delete" id={section.sectionId} onClick={(e) => handleDelete(e.target.id)}>
-              Delete <i className="fa-solid fa-trash-can"></i>
-            </button>
-          </div> */}
-      </div>
+      )}
     </>
   );
 };

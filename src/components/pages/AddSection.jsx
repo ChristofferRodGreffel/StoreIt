@@ -50,7 +50,7 @@ export const AddSection = () => {
     setContentList([...contentList, newItem]);
 
     toast.dismiss();
-    toast.info(`${newItem.content} added to ${sectionName}`, {
+    toast.success(`[${newItem.content}] was added to ${sectionName}`, {
       position: "top-right",
       autoClose: 1000,
       hideProgressBar: false,
@@ -67,7 +67,7 @@ export const AddSection = () => {
     const newList = contentList.filter((item) => item.id !== id);
     setContentList(newList);
 
-    toast.info(`${content} removed`, {
+    toast.success(`[${content}] was removed from ${sectionName}`, {
       position: "top-right",
       autoClose: 1000,
       hideProgressBar: false,
@@ -85,32 +85,18 @@ export const AddSection = () => {
       <h1>Create new section</h1>
       <div className="form">
         <div>
-          <label htmlFor="sectionName">
+          <label>
             Section name <i className="fa-solid fa-circle-question" content="The name of your storage location"></i>
           </label>
-          <input
-            type="text"
-            name="sectionName"
-            placeholder="What is the section name?"
-            value={sectionName}
-            onChange={(e) => setSectionName(e.target.value)}
-            required
-          />
+          <input type="text" name="sectionName" placeholder="What is the section name?" value={sectionName} onChange={(e) => setSectionName(e.target.value)} required />
         </div>
         <div>
+          <label>
+            What are you storing? <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
+          </label>
           <form>
-            <label htmlFor="sectionName">
-              What are you storing?{" "}
-              <i className="fa-solid fa-circle-question" content="Items stored at this location"></i>
-            </label>
             <div className="addItem">
-              <input
-                type="text"
-                name="sectionName"
-                placeholder="What is in this section?"
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-              />
+              <input type="text" name="sectionName" placeholder="What is in this section?" value={content} onChange={(e) => setContent(e.target.value)} />
               <button type="submit" onClick={handleAdd} className="addBtn">
                 Add item
               </button>
