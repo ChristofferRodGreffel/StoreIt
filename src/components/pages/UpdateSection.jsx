@@ -1,5 +1,5 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { child, getDatabase, onValue, push, ref, set, update } from "firebase/database";
+import { onValue, ref, update } from "firebase/database";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";

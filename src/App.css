@@ -283,8 +283,7 @@ hr {
 }
 .section div ul li {
   width: fit-content;
-  list-style-position: inside;
-  list-style-type: disc;
+  list-style: none;
 }
 
 .buttons {
@@ -345,7 +344,7 @@ hr {
 .search {
   display: flex;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 .search button {
   font-weight: 600;
@@ -355,6 +354,19 @@ hr {
   font-family: inherit;
   color: white;
   padding: 10px 20px;
+}
+.user-sections select {
+  border: none;
+  color: black;
+  border: 2px solid black;
+  border-radius: 20px;
+  background-color: white;
+  font-family: inherit;
+  font-size: 10pt;
+  font-weight: 500;
+  height: 30px;
+  padding: 0px 5px;
+  margin-bottom: 30px;
 }
 
 /* Edit section */
@@ -402,4 +414,26 @@ hr {
   font-weight: 600;
   color: black;
   text-decoration: none;
+}
+
+/* Profile page */
+
+.profile {
+  width: 90%;
+  margin: auto;
+}
+
+.profile h1 {
+  margin-top: 50px;
+}
+.profile-picture {
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.profile-picture img {
+  width: 230px;
+  height: 230px;
+  object-fit: cover;
 }

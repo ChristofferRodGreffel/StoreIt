@@ -12,6 +12,7 @@ export const StoredItems = () => {
   const [sectionName, setSectionName] = useState("");
   const [sectionId, setSectionId] = useState("");
   const [searchItem, setSearchItem] = useState("");
+  const [selectedSection, setSelectedSection] = useState("allsections");
 
   const navigate = useNavigate();
 
@@ -112,8 +113,33 @@ export const StoredItems = () => {
   // This variable is used for conditional rendering and checks if there are any matches from filtering
   const hasMatch = filteredSections.length > 0;
 
-  const handleReset = () => {
+  const handleReset = (e) => {
+    e.preventDefault();
     setSearchItem("");
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  };
+
+  // Close mobile keyboard on "enter"
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.target.blur();
+    }
+  };
+
+  const handleSelect = (e) => {
+    setSelectedSection(e.target.value);
+  };
+
+  // Function to filter sections based on the selected section
+  const filterSectionsBySelectedSection = (sections, selectedSection) => {
+    if (selectedSection === "allsections") {
+      return sections;
+    } else {
+      return sections.filter((section) => section.sectionName === selectedSection);
+    }
   };
 
   return (
@@ -122,24 +148,25 @@ export const StoredItems = () => {
       <button onClick={handleClick} className="add-section-btn">
         Add section <i className="fa-solid fa-plus"></i>
       </button>
-      <form className="search" onSubmit={(e) => e.preventDefault()}>
-        <input type="text" placeholder="Search for item" onChange={handleInputChange} value={searchItem} />
+      <div className="search" onSubmit={handleSubmit}>
+        <input type="text" placeholder="Search for item" onChange={handleInputChange} value={searchItem} onKeyDown={handleKeyPress} />
         <button onClick={handleReset}>Clear</button>
-      </form>
-      {/* <form>
-        <select placeholder="Section">
-          <option value="">Section 1</option>
-          <option value="">Section 2</option>
-          <option value="">Section 3</option>
-          <option value="">Section 4</option>
-          <option value="">Section 5</option>
-        </select>
-      </form> */}
+      </div>
+      <select value={selectedSection} onChange={handleSelect}>
+        <option value="allsections">All Sections</option>
+        {filteredSections.map((section, key) => {
+          return (
+            <option key={key} value={section.sectionName}>
+              {section.sectionName}
+            </option>
+          );
+        })}
+      </select>
       <div className="all-sections">
         {!storageEmpty ? (
           <>
             {hasMatch ? (
-              filteredSections.map((section, key) => (
+              filterSectionsBySelectedSection(filteredSections, selectedSection).map((section, key) => (
                 <div key={key} className="section">
                   <h2>{section.sectionName}</h2>
                   <div>
